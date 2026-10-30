@@ -1,0 +1,58 @@
+# Publishes the prebuilt native dependency bundle (OpenSSL libcrypto +
+# libplist, static, all ABIs) as a GitHub release "native-deps-v<N>", so
+# contributors can build without a Linux toolchain. The source tarballs are
+# attached too, as the corresponding source of the shipped binaries.
+#
+# After the first run, copy the printed SHA-256 into
+# third_party/native-deps.properties (BUNDLE_SHA256).
+name: Native dependencies
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - third_party/native-deps.properties
+      - third_party/build-native-deps.sh
+
+permissions:
+  contents: write
+
+env:
+  NDK_VERSION: "29.0.14206865"
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install Android NDK
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "ndk;$NDK_VERSION" > /dev/null
+          echo "ANDROID_NDK_ROOT=$ANDROID_HOME/ndk/$NDK_VERSION" >> "$GITHUB_ENV"
+
+      - name: Build bundle
+        id: bundle
+        env:
+          EMBER_DEPS_WORKDIR: ${{ runner.temp }}/deps
+        run: |
+          bash third_party/build-native-deps.sh
+          version=$(grep '^NATIVE_DEPS_VERSION=' third_party/native-deps.properties | cut -d= -f2)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          cp "$EMBER_DEPS_WORKDIR"/src/* third_party/dist/
+          echo "### Bundle SHA-256" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          cat third_party/dist/*.sha256 >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: softprops/action-gh-release@v3
+        with:
+          tag_name: native-deps-v${{ steps.bundle.outputs.version }}
+          name: Native dependencies v${{ steps.bundle.outputs.version }}
+          body: |
+            Prebuilt static OpenSSL (libcrypto) and libplist for Ember, built by
+            `third_party/build-native-deps.sh`. Source tarballs and licenses included.
+            Not an app release.
+          prerelease: true
+          files: third_party/dist/*

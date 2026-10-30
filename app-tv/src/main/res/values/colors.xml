@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ember_background">#FF1A1210</color>
+    <color name="ember_flame_outer">#FFFF6A2B</color>
+    <color name="ember_flame_inner">#FFFFC23D</color>
+    <color name="ember_text">#FFF5EDE6</color>
+    <color name="ember_text_secondary">#FFB8A99E</color>
+</resources>

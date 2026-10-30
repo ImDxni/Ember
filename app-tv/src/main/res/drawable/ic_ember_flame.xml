@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ember logo: a stylised flame. Also used as adaptive icon foreground. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="@color/ember_flame_outer"
+        android:pathData="M54,26C54,26 72,42 72,60C72,72.2 64,82 54,82C44,82 36,72.2 36,60C36,50 42,44 46,38C46,46 49,50 52,51C50,42 52,33 54,26Z" />
+    <path
+        android:fillColor="@color/ember_flame_inner"
+        android:pathData="M54,52C54,52 63,60 63,68C63,74 59,78 54,78C49,78 45,74 45,68C45,63 48,60 50,57C50,61 52,63 54,63C53,59 53,55 54,52Z" />
+</vector>

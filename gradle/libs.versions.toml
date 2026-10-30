@@ -1,0 +1,22 @@
+[versions]
+agp = "9.4.1"
+kotlin = "2.4.21"
+androidx-core = "1.17.0"
+junit = "4.13.2"
+
+# Android toolchain, shared by all Android modules (see build.gradle.kts).
+compileSdk = "36"
+targetSdk = "35"
+minSdk = "25"
+ndk = "29.0.14206865"
+cmake = "3.31.6"
+
+[libraries]
+androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+junit = { module = "junit:junit", version.ref = "junit" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

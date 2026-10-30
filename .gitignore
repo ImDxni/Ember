@@ -1,0 +1,21 @@
+# Gradle / Android
+.gradle/
+build/
+.cxx/
+.externalNativeBuild/
+local.properties
+captures/
+*.apk
+*.aab
+*.jks
+*.keystore
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Native dependencies (built by third_party/build-native-deps.sh or downloaded by Gradle)
+third_party/prebuilt/
+third_party/dist/

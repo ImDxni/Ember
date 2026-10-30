@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="status_stopped">Ricevitore fermo</string>
+    <string name="status_starting">Avvio in corso…</string>
+    <string name="status_waiting">Pronto. Sull\'iPhone apri Centro di Controllo → Duplica schermo → scegli questo nome.</string>
+    <string name="status_error">Il ricevitore non è partito. Vedi i dettagli in basso.</string>
+    <string name="address_format">Indirizzo IP: %1$s</string>
+    <string name="no_network">Nessuna connessione di rete</string>
+    <string name="notification_channel">Ricevitore</string>
+    <string name="notification_text">In attesa di duplicazione schermo</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Ember</string>
+    <string name="status_stopped">Receiver stopped</string>
+    <string name="status_starting">Starting…</string>
+    <string name="status_waiting">Ready. On your iPhone open Control Center → Screen Mirroring → choose this name.</string>
+    <string name="status_error">The receiver could not start. See details below.</string>
+    <string name="address_format">IP address: %1$s</string>
+    <string name="no_network">No network connection</string>
+    <string name="notification_channel">Receiver</string>
+    <string name="notification_text">Waiting for screen mirroring</string>
+</resources>
