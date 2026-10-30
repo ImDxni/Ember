@@ -27,12 +27,28 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      # A published bundle is immutable: its SHA-256 is pinned in
+      # native-deps.properties and the build is not bit-reproducible
+      # (OpenSSL embeds the build date). Bump NATIVE_DEPS_VERSION to publish anew.
+      - name: Skip if this version is already published
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(grep '^NATIVE_DEPS_VERSION=' third_party/native-deps.properties | cut -d= -f2 | tr -d '\r')
+          if gh release view "native-deps-v$version" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "native-deps-v$version already published, nothing to do." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Install Android NDK
+        if: steps.check.outputs.skip != 'true'
         run: |
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "ndk;$NDK_VERSION" > /dev/null
           echo "ANDROID_NDK_ROOT=$ANDROID_HOME/ndk/$NDK_VERSION" >> "$GITHUB_ENV"
 
       - name: Build bundle
+        if: steps.check.outputs.skip != 'true'
         id: bundle
         env:
           EMBER_DEPS_WORKDIR: ${{ runner.temp }}/deps
@@ -47,6 +63,7 @@ jobs:
           echo '```' >> "$GITHUB_STEP_SUMMARY"
 
       - uses: softprops/action-gh-release@v3
+        if: steps.check.outputs.skip != 'true'
         with:
           tag_name: native-deps-v${{ steps.bundle.outputs.version }}
           name: Native dependencies v${{ steps.bundle.outputs.version }}
